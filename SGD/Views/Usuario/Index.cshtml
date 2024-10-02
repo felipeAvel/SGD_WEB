@@ -1,0 +1,214 @@
+﻿@model SGD.Dominio.Entidade.Gerais.Paginacao
+@using PagedList
+@using PagedList.Mvc;
+@using SGD.Dominio.Entidade.Autenticacao
+
+@{
+    var listaUsuarios = (StaticPagedList<Usuarios>)ViewBag.ListaUsuarios;
+}
+
+<div class="container" style="background-color:#f5f7fd">
+    <div class="page-inner">
+
+        <div class="page-header">
+            <h3 class="fw-bold mb-3">Usuários</h3>
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Home")">Home</a>
+                </li>
+                <li class="separator">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Usuario")">Usuários</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card card-round">
+                <div class="card-header">
+                    <div class="card-title">Cadastrados</div>
+                    <div class="card-category">
+                        Lista de Usuários Cadastrados no Sistema
+                        <div class="card-head-row card-tools-still-right">
+                            <div class="card-tools">
+                                <div class="dropdown">
+                                    <button class="btn btn-icon btn-clean me-0"
+                                            type="button"
+                                            id="dropdownMenuButton"
+                                            data-bs-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                    <div class="dropdown-menu"
+                                         aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="@Url.Action("InserirUsuario","Usuario")">Adicionar/Usuário</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Usuário</th>
+                                    <th scope="col" class="text-center">Equipe</th>
+                                    <th scope="col" class="text-center">Login</th>
+                                    <th scope="col" class="text-center">Data Registro</th>
+                                    <th scope="col" class="text-center">Status</th>
+                                    <th scope="col" class="text-center">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in listaUsuarios)
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            <img src="data:image/png;base64,@item.Foto" alt="..." class="avatar-img rounded-circle avatar-sm">
+                                            @item.Nome #@item.Id
+                                        </th>
+                                        <td class="text-center">@item.Equipe.Nome</td>
+                                        <td class="text-center">@item.Login</td>
+                                        <td class="text-center">@item.DataRegistro.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">
+                                            @if (item.IsAtivo == true)
+                                            {
+                                                <span class="badge badge-success">Ativo</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-danger">Desativado</span>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+
+                                            <a class="btn btn-link btn-primary btn-lg" href="@Url.Action("EditarUsuario","Usuario", new { @id = item.Id })"><i class="fa fa-edit"></i></a>
+
+                                            @if (item.IsAtivo == true)
+                                            {
+                                                <button type="button" data-id="@item.Id" class="btn btn-link btn-danger mudarStatus">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" data-id="@item.Id" class="btn btn-link btn-success mudarStatus">
+                                                    <i class="fa fa-check"></i>
+                                                </button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="col-md-3 m-4">
+                        @Html.PagedListPager(
+                        listaUsuarios,
+                        page => Url.Action(
+                        "Index",
+                        new
+                        {
+                            PaginaAtual = page,
+                            Ordenacao = Model.Ordenacao,
+                            TermoBusca = Model.TermoBusca
+                        }),
+                        new PagedListRenderOptions
+                        {
+                            FunctionToTransformEachPageLink = (liTag, aTag) =>
+                            {
+                                liTag.AddCssClass("page-item");
+                                aTag.AddCssClass("page-link");
+                                liTag.InnerHtml = aTag.ToString();
+                                return liTag;
+                            }
+                        })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var controllerInserirUsuarioExcluir = '@Url.Action("MudarStatus", "Usuario")';
+
+        const botoesMudarStatus = document.querySelectorAll('.mudarStatus');
+
+        botoesMudarStatus.forEach(mudarStatus => {
+            mudarStatus.addEventListener('click', function () {
+
+                var formData = new FormData();
+                formData.append('id', this.dataset.id);
+
+                Swal.fire({
+                    title: "Tem certeza?",
+                    text: "Confirme para Alterar o Status!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sim",
+                    cancelButtonText: "Não",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: controllerInserirUsuarioExcluir,
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                if (data == "Erro ao Excluir Usuário!") {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: "Erro ao Excluir Usuário!"
+                                    });
+                                }
+                                else if (data == "Sucesso") {
+                                    Swal.fire({
+                                        position: "center",
+                                        icon: "success",
+                                        title: "Alteração Realizada com Sucesso!",
+                                        showConfirmButton: false,
+                                        timer: 3500
+                                    }).then(() => {
+                                        window.location.href = '@Url.Action("Index", "Usuario")';
+                                    });
+                                }
+                                else if (data == "Usuário ja Existente!") {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Oops...",
+                                        text: "Erro ao Excluir Usuário!"
+                                    });
+                                }
+                            },
+                            error: function (request, status, error) {
+                                console.log(request.responseText);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    });
+</script>

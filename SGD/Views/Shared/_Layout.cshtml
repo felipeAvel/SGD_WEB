@@ -1,0 +1,386 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>BR3DPRINT</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+          name="viewport" />
+    <link rel="icon"
+          href="~/Content/img/kaiadmin/favicon.ico"
+          type="~/Content/image/x-icon" />
+
+    <!-- Fonts and icons -->
+    <script src="~/Content/js/plugin/webfont/webfont.min.js"></script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="~/Content/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/css/plugins.min.css" />
+    <link rel="stylesheet" href="~/Content/css/kaiadmin.min.css" />
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="~/Content/css/demo.css" />
+    <link rel="stylesheet" href="~/Content/css/all.min.css" />
+
+
+    <script src="~/Content/js/core/jquery-3.7.1.min.js"></script>
+    <script src="~/Content/js/core/popper.min.js"></script>
+    <script src="~/Content/js/core/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="~/Content/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+    <!-- Chart JS -->
+    <script src="~/Content/js/plugin/chart.js/chart.min.js"></script>
+
+    <!-- jQuery Sparkline -->
+    <script src="~/Content/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Chart Circle -->
+    <script src="~/Content/js/plugin/chart-circle/circles.min.js"></script>
+
+    <!-- Datatables -->
+    <script src="~/Content/js/plugin/datatables/datatables.min.js"></script>
+
+    <!-- Bootstrap Notify -->
+    <script src="~/Content/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+    <!-- jQuery Vector Maps -->
+    <script src="~/Content/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+    <script src="~/Content/js/plugin/jsvectormap/world.js"></script>
+
+    <!-- Sweet Alert -->
+    <script src="~/Content/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+    <!-- Kaiadmin JS -->
+    <script src="~/Content/js/kaiadmin.min.js"></script>
+
+    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
+    <script src="~/Content/js/setting-demo.js"></script>
+    <script src="~/Content/js/demo.js"></script>
+</head>
+<body>
+
+    <div class="wrapper sidebar_minimize">
+        <!-- Sidebar -->
+        <div class="sidebar" data-background-color="dark">
+            <div class="sidebar-logo">
+                <!-- Logo Header -->
+                <div class="logo-header" data-background-color="dark">
+                    <a href="@Url.Action("Index","Home")" class="logo">
+                        <img id="iconview" src="~/Content/img/kaiadmin/logo_light.png"
+                             alt="navbar brand"
+                             class="navbar-brand"
+                             height="50" />
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar">
+                            <i class="gg-menu-right"></i>
+                        </button>
+                        <button class="btn btn-toggle sidenav-toggler">
+                            <i class="gg-menu-left"></i>
+                        </button>
+                    </div>
+                    <button class="topbar-toggler more">
+                        <i class="gg-more-vertical-alt"></i>
+                    </button>
+                </div>
+                <!-- End Logo Header -->
+            </div>
+            <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                <div class="sidebar-content">
+                    <ul class="nav nav-secondary">
+                        @if (ViewBag.Base_EquipeUsuario == "Administrador")
+                        {
+                            <li class="nav-item">
+                                <a data-bs-toggle="collapse"
+                                   href="#dashboard"
+                                   class="collapsed"
+                                   aria-expanded="false">
+                                    <i class="fas fas fa-user-group"></i>
+                                    <p>Clientes</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="dashboard">
+                                    <ul class="nav nav-collapse">
+                                        <li>
+                                            <a href="@Url.Action("Index","Cliente")">
+                                                <span class="sub-item">Consultar Clientes</span>
+                                            </a>
+                                            <a href="@Url.Action("CadastrarCliente","Cliente")">
+                                                <span class="sub-item">Cadastrar Cliente</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a data-bs-toggle="collapse"
+                                   href="#exportacao"
+                                   class="collapsed"
+                                   aria-expanded="false">
+                                    <i class="fas fa-file-contract"></i>
+                                    <p>Exportação</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="exportacao">
+                                    <ul class="nav nav-collapse">
+                                        <li>
+                                            <a href="../demo1/index.html">
+                                                <span class="sub-item">Exportar Dados</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a data-bs-toggle="collapse"
+                                   href="#impressoras"
+                                   class="collapsed"
+                                   aria-expanded="false">
+                                    <i class="fas fa-cubes"></i>
+                                    <p>Impressoras 3D</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="impressoras">
+                                    <ul class="nav nav-collapse">
+                                        <li>
+                                            <a href="../demo1/index.html">
+                                                <span class="sub-item">OctoPrint - all</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="nav-item">
+                                <a data-bs-toggle="collapse"
+                                   href="#parametros"
+                                   class="collapsed"
+                                   aria-expanded="false">
+                                    <i class="fas fa-th-list"></i>
+                                    <p>Parâmetros</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="parametros">
+                                    <ul class="nav nav-collapse">
+                                        <li>
+                                            <a href="../demo1/index.html">
+                                                <span class="sub-item">Consultar</span>
+                                            </a>
+                                            <a href="../demo1/index.html">
+                                                <span class="sub-item">Cadastrar</span>
+                                            </a>
+                                            <a href="../demo1/index.html">
+                                                <span class="sub-item">Editar</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a data-bs-toggle="collapse"
+                                   href="#clientes"
+                                   class="collapsed"
+                                   aria-expanded="false">
+                                    <i class="fas fa-users"></i>
+                                    <p>Usuários</p>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="clientes">
+                                    <ul class="nav nav-collapse">
+                                        <li>
+                                            <a href="@Url.Action("Index","Usuario")">
+                                                <span class="sub-item">Consultar</span>
+                                            </a>
+                                            <a href="@Url.Action("InserirUsuario","Usuario")">
+                                                <span class="sub-item">Cadastrar</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Sidebar -->
+
+        <div class="main-panel">
+            <div class="main-header">
+                <div class="main-header-logo">
+                    <!-- Logo Header -->
+                    <div class="logo-header" data-background-color="dark">
+                        <a href="@Url.Action("Index","Home")" class="logo">
+                            <img id="iconview_" src="~/Content/img/kaiadmin/logo_light.png"
+                                 alt="navbar brand"
+                                 class="navbar-brand"
+                                 height="70" />
+                        </a>
+                        <div class="nav-toggle">
+                            <button class="btn btn-toggle toggle-sidebar">
+                                <i class="gg-menu-right"></i>
+                            </button>
+                            <button class="btn btn-toggle sidenav-toggler">
+                                <i class="gg-menu-left"></i>
+                            </button>
+                        </div>
+                        <button class="topbar-toggler more">
+                            <i class="gg-more-vertical-alt"></i>
+                        </button>
+                    </div>
+                    <!-- End Logo Header -->
+                </div>
+                <!-- Navbar Header -->
+                <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg">
+                    <div class="container-fluid">
+                        <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                            <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
+                                <a class="nav-link dropdown-toggle"
+                                   data-bs-toggle="dropdown"
+                                   href="#"
+                                   role="button"
+                                   aria-expanded="false"
+                                   aria-haspopup="true">
+                                    <i class="fa fa-search"></i>
+                                </a>
+
+                            </li>
+
+                            @if (ViewBag.TotalNotificacao >= 1)
+                            {
+                                <li class="nav-item topbar-icon dropdown hidden-caret">
+                                    <a class="nav-link dropdown-toggle"
+                                       href="#"
+                                       id="notifDropdown"
+                                       role="button"
+                                       data-bs-toggle="dropdown"
+                                       aria-haspopup="true"
+                                       aria-expanded="false">
+                                        <i class="fa fa-bell"></i>
+                                        <span class="notification">@ViewBag.TotalNotificacao</span>
+                                    </a>
+                                    <ul class="dropdown-menu notif-box animated fadeIn"
+                                        aria-labelledby="notifDropdown">
+                                        <li>
+                                            <div class="dropdown-title">
+                                                @if (ViewBag.TotalNotificacao > 1)
+                                                {
+                                                    <text>Você tem @ViewBag.TotalNotificacao novas notificações</text>
+                                                }
+                                                else if (ViewBag.TotalNotificacao == 1)
+                                                {
+                                                    <text>Você tem @ViewBag.TotalNotificacao notificação</text>
+                                                }
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="notif-scroll scrollbar-outer">
+                                                <div class="notif-center">
+                                                    @foreach (var item in ViewBag.PedidosPendentesCliente)
+                                                    {
+                                                        <a href="@Url.Action("ClientePedidos","Cliente", new { @id = item.Cliente.Id, @idPedido = item.Id })">
+                                                            <img src="data:image/png;base64,@item.Cliente.Foto" alt="..." class="avatar-img rounded-circle avatar-sm notif-icon">
+                                                            <div class="notif-content">
+                                                                <span class="block"> @item.Cliente.Nome </span>
+                                                                <span class="time text-danger">Pedido Pendente - Prazo @item.DataEntrega.ToString("dd-MM-yyyy")</span>
+                                                            </div>
+                                                        </a>
+                                                    }
+
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+
+
+                            <li class="nav-item topbar-user dropdown hidden-caret">
+                                <a class="dropdown-toggle profile-pic"
+                                   data-bs-toggle="dropdown"
+                                   href="#"
+                                   aria-expanded="false">
+                                    <div class="avatar-sm">
+                                        <img src="@ViewBag.Base_FotoUsuario"
+                                             alt="..."
+                                             class="avatar-img rounded-circle" />
+                                    </div>
+                                    @*<span class="profile-username">
+                                            <span class="op-7">Hi,</span>
+                                            <span class="fw-bold">Hizrian</span>
+                                        </span>*@
+                                </a>
+                                <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                    <div class="dropdown-user-scroll scrollbar-outer">
+                                    <li>
+                                        <div class="user-box">
+                                            <div class="avatar-lg">
+                                                <img src="@ViewBag.Base_FotoUsuario"
+                                                     alt="image profile"
+                                                     class="avatar-img rounded" />
+                                            </div>
+                                            <div class="u-text">
+                                                <h4>@ViewBag.Base_EquipeUsuario</h4>
+                                                <p class="text-muted">@ViewBag.Base_NomeUsuario</p>
+                                                <a href="@Url.Action("VerPerfilUsuario","Usuario")"
+                                                   class="btn btn-xs btn-secondary btn-sm">Ver Perfil</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                        @*<a class="dropdown-item" href="#">My Profile</a>
+                                            <a class="dropdown-item" href="#">My Balance</a>
+                                            <a class="dropdown-item" href="#">Inbox</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Account Setting</a>
+                                            <div class="dropdown-divider"></div>*@
+                                        <a class="dropdown-item" href="@Url.Action("logoff","Login")">Logout</a>
+                                    </li>
+                    </div>
+            </div>
+            <!-- End Navbar -->
+        </div>
+        @RenderBody()
+    </div>
+
+    <!--   Core JS Files   -->
+    s
+    <script>
+        $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#177dff",
+            fillColor: "rgba(23, 125, 255, 0.14)",
+        });
+
+        $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#f3545d",
+            fillColor: "rgba(243, 84, 93, .14)",
+        });
+
+        $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#ffa534",
+            fillColor: "rgba(255, 165, 52, .14)",
+        });
+
+
+    </script>
+</body>
+</html>

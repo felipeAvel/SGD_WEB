@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "EditarVideo";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<div class="container" style="background-color:#0f0f0f">
+    <div class="page-inner">
+        <div class="align-items-center flex-md-row pt-2 pb-4">
+            <div class="ms-md-auto py-2 py-md-0">
+                <input type="text" name="Nome" id="Nome" value="" />
+                <input type="text" name="Url" id="Url" value="" />
+                <input type="text" name="CapaUrl" id="CapaUrl" value="" />
+                <input type="text" name="Categoria" id="Categoria" value="" />
+                <input type="text" name="LogoUrl" id="LogoUrl" value="" />
+
+                <button id="Inserir">Inserir Vídeo</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        document.getElementById("iconview").src = "/Content/img/kaiadmin/YouTube-Logo.wine.png";
+
+        var controllerInserirVideo = '@Url.Action("InserirVideo", "Video")';
+        $(document).on('click', '#Inserir', FuncInserir);
+
+        function FuncInserir()
+        {
+            //Validação dos campos
+            if ($('#Url').val() == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
+                    footer: '<a href="#">Why do I have this issue?</a>'
+                });
+            }
+            else {
+                InserirVideo();
+            }
+
+            function InserirVideo() {
+                var formData = new FormData();
+
+                formData.append('Nome', $('#Nome').val());
+                formData.append('Url', $('#Url').val());
+                formData.append('CapaUrl', $('#CapaUrl').val());
+                formData.append('Categoria', $('#Categoria').val());
+                formData.append('LogoUrl', $('#LogoUrl').val());
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: controllerInserirVideo,
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                if (data == "Erro ao Inserir Vídeo!") {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: data,
+                                        icon: "success"
+                                    });
+                                }
+                                else if (data == "Sucesso") {
+                                    Swal.fire({
+                                        position: "center",
+                                        icon: "success",
+                                        title: "Your work has been saved",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+
+                                    
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: "Erro ao Salvar",
+                                        icon: "success"
+                                    });
+                                }
+                            },
+                            error: function (request, status, error) {
+                                console.log(request.responseText);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    });
+</script>

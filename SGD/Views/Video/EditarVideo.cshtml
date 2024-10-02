@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "EditarVideo";
+}
+
+<h2>EditarVideo</h2>
+
+<input type="text" name="Url" id="Url" value="" />
+
+<button id="Inserir">Inserir Vídeo</button>
+
+<script>
+    $(document).ready(function () {
+        document.getElementById("iconview").src = "/Content/img/kaiadmin/YouTube-Logo.wine.png";
+
+        var controllerInserirVideo = '@Url.Action("InserirVideo", "Video")';
+        $(document).on('click', '#Inserir', FuncInserir);
+
+        function FuncInserir()
+        {
+            //Validação dos campos
+            if ($('#Url').val() == "") {
+                swalError('Campo Url não foi preenchido')
+            }
+            else {
+                InserirVideo();
+            }
+
+            function InserirVideo() {
+                var formData = new FormData();
+
+                formData.append('Url', $('#Url').val());
+
+                swalConfirm("Estamos quase lá!", "Podemos Inserir os Dados?").then(() => {
+                    $.ajax({
+                        url: controllerInserirVideo,
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data == "Erro ao Inserir Vídeo!") {
+                                swalError(data);
+                            }
+                            else if (data == "Sucesso") {
+                                swalConfirm(
+                                    'Vídeo Inserido com Sucesso!',
+                                    'Deseja voltar para pagina de Vídeos?',
+                                    'success'
+                                ).the(() => {
+                                    window.location.href = "Index";
+                                });
+                            }
+                            else {
+                                swalError("Erro ao Salvar na Controller!");
+                            }
+                        },
+                        error: function (request, status, error) {
+                            console.log(request.responseText);
+                        }
+                    });
+                });
+            }
+        }
+    });
+</script>

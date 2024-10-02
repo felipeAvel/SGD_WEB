@@ -1,0 +1,51 @@
+﻿@model SGD.ViewModels.Videos.VideoViewModels
+@using SGD.Dominio.Entidade.Video
+
+<div class="container" style="background-color:#0f0f0f">
+    <div class="page-inner">
+
+        <div class="align-items-center flex-md-row pt-2 pb-4">
+            <div class="ms-md-auto py-2 py-md-0">
+                <a href="@Url.Action("Index","Video", new {categoria = "Corrida"})" class="btn btn-sm btn-light btn-round">CARROS</a>
+                <a href="@Url.Action("Index","Video", new {categoria = "Música"})" class="btn btn-sm btn-light btn-round">MÚSICAS</a>
+                <a href="@Url.Action("Index","Video", new {categoria = "Aventura"})" class="btn btn-sm btn-light btn-round">AVENTURAS</a>
+                <a href="@Url.Action("Index","Video", new {categoria = "Dinossauro"})" class="btn btn-sm btn-light btn-round">DINOSSÁUROS</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="flex-1 pt-0 mb-4 ms-2">
+                    <h6 onclick="myFunction()" class="fw-bold mb-1 text-white">@Model.Nome</h6>
+                </div>
+
+                <iframe onchange="myFunction()" class="card" style="width:370px;height:200px" src="https://www.youtube.com/embed/@Model.Url.ToString()?&showinfo=0&rel=0" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in ViewBag.Video)
+            {
+                <div class="col-md-3">
+                    <div class="card" onclick="javascript:window.location.href='@Url.Action("ExibirVideo","Video", new {id = item.Id})'" style="background-image:url(@item.CapaUrl);background-size:100% ; width: 100%; height: 200px; cursor: pointer"></div>
+                    <div class="d-flex">
+                        <div class="avatar">
+                            <img src="@item.LogoUrl"
+                                 alt="..."
+                                 class="avatar-img rounded-circle" />
+                        </div>
+                        <div class="flex-1 pt-0 mb-4 ms-2">
+                            <h6 class="fw-bold mb-1 text-white">@item.Nome</h6>
+                            <small class="text-white">Data Upload: @item.DataRegistro.ToString("dd-MM-yyyy")</small>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        document.getElementById("iconview").src = "/Content/img/kaiadmin/YouTube-Logo.wine.png";
+    });
+</script>

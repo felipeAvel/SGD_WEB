@@ -1,0 +1,160 @@
+﻿<div class="container" style="background-color:#f5f7fd">
+    <div class="page-inner">
+
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+            <div>
+                <h3 class="fw-bold mb-3">Dashboard</h3>
+                <h6 class="op-7 mb-2">Acompanhamento Impressões 3D</h6>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-primary bubble-shadow-small">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Total de Clientes</p>
+                                    <h4 class="card-title">@ViewBag.TotalCliente</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-info bubble-shadow-small">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Pedidos Finalizados</p>
+                                    <h4 class="card-title">@ViewBag.PedidosFinalizados</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-danger bubble-shadow-small">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Pendetes</p>
+                                    <h4 class="card-title">@ViewBag.PedidosPendentes</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="card card-stats card-round">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-icon">
+                                <div class="icon-big text-center icon-success bubble-shadow-small">
+                                    <i class="fas fa-money-bill-1-wave"></i>
+                                </div>
+                            </div>
+                            <div class="col col-stats ms-3 ms-sm-0">
+                                <div class="numbers">
+                                    <p class="card-category">Vendas</p>
+                                    <h4 class="card-title">R$ @ViewBag.TotalVendas</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (ViewBag.Top10Pedidos != null)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-head-row card-tools-still-right">
+                                <div class="card-title">Pedidos Pendentes - Top 10</div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <!-- Projects table -->
+                                <table class="table align-items-center mb-0">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">Cliente</th>
+                                            <th scope="col" class="text-center">Valor</th>
+                                            <th scope="col" class="text-center">Data Pedido</th>
+                                            <th scope="col" class="text-center">Data de Entrega</th>
+                                            <th scope="col" class="text-center">Descrição</th>
+                                            <th scope="col" class="text-center">Status</th>
+                                            <th scope="col" class="text-center">Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in ViewBag.Top10Pedidos)
+                                        {
+                                            <tr>
+                                                <th scope="row">
+                                                    <img src="data:image/png;base64,@item.Cliente.Foto" alt="..." class="avatar-img rounded-circle avatar-sm">
+                                                    @item.Cliente.Nome
+                                                </th>
+                                                <td class="text-center">R$ @item.Valor</td>
+                                                <td class="text-center">@item.DataPedido.ToString("dd/MM/yyyy")</td>
+                                                <td class="text-center">@item.DataEntrega.ToString("dd/MM/yyyy")</td>
+                                                <td class="text-center">@item.Descricao</td>
+                                                <td class="text-center">@item.Status</td>
+                                                <td class="text-center">
+                                                    <a href="@Url.Action("ClientePedidos","Cliente", new { @id = item.Cliente.Id, @idPedido = item.Id })" class="btn btn-primary"><i class="fas fa-bars"s></i> Pedidos</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @*<div class="row">
+                <div class="col-md-6">
+                    <div class="card card-round">
+                        <div class="card-header">
+                            <div class="card-head-row card-tools-still-right">
+                                <div class="card-title">Impressora 1</div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <iframe src="http://192.168.0.62/"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+    </div>
+</div>

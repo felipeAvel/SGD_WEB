@@ -1,0 +1,519 @@
+﻿@model SGD.ViewModels.Clientes.ClienteViewModels
+@using SGD.Dominio.Entidade.ClientePedidos
+
+<div class="container" style="background-color:#f5f7fd">
+    <div class="page-inner">
+
+        <div class="page-header">
+            <h3 class="fw-bold mb-3">Pedidos Cliente</h3>
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Home")">Home</a>
+                </li>
+                <li class="separator">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Cliente")">Clientes</a>
+                </li>
+                <li class="separator">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("ClientePedidos","Cliente", new {@id = Model.Id})">ClientePedidos</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-12">
+            <div class="card card-round">
+                <div class="card-header">
+                    <div class="card-title">@Model.Id - @Model.Nome</div>
+                    <div class="card-category">
+                        Informações Cadastradas na Plataforma
+                    </div>
+                </div>
+                <div class="card-body">
+                    @*0-BLOCO-START*@
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="fotoAtual">Foto Cliente</label>
+                                <div class="avatar-xxl">
+                                    <img src="data:image/png;base64,@Model.Foto" alt="image profile" class="avatar-img rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*0-BLOCO-END*@
+
+                    @*1-BLOCO-START*@
+                    <div class="row pt-5">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="nome">Nome Cliente</label>
+                                <input type="text" class="form-control" id="nome" name="nome" value="@Model.Nome" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="login">Telefone</label>
+                                <input type="text" class="form-control" id="login" name="login" value="@Model.Telefone" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" class="form-control" id="email" name="email" value="@Model.Email" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    @*1-BLOCO-END*@
+
+                    @*2-BLOCO-START*@
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="funcional">Cidade</label>
+                                <input type="text" class="form-control" id="funcional" name="funcional" maxlength="9" value="@Model.Cidade" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="equipe">Status</label>
+                                <input type="text" class="form-control" id="equipe" name="equipe" maxlength="9" value="@Model.IsAtivo" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    @*2-BLOCO-END*@
+
+                    @*2-BLOCO-START*@
+                    <div class="row">
+                        <div class="col-md-6 col-lg-12">
+                            <div class="form-group">
+                                <label for="racf">Endereço</label>
+                                <input type="text" class="form-control" id="racf" name="racf" maxlength="7" value="@Model.Endereco - @Model.CEP" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    @*2-BLOCO-END*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-inner mt--5">
+        <div class="col-md-12">
+            <div class="card card-round">
+                <div class="card-header">
+                    <div class="card-title">Lista de Pedidos</div>
+                    <div class="card-head-row card-tools-still-right mt--3">
+                        <div class="card-tools">
+                            <div class="dropdown">
+                                <button class="btn btn-icon btn-clean me-0"
+                                        type="button"
+                                        id="dropdownMenuButton"
+                                        data-bs-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                                <div class="dropdown-menu"
+                                     aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="@Url.Action("CadastrarPedidos","Cliente", new{id= Model.Id })">Adicionar/Pedido</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Descrição Pedido</th>
+                                    <th scope="col" class="text-center">Valor</th>
+                                    <th scope="col" class="text-center">Data Pedido</th>
+                                    <th scope="col" class="text-center">Data Entrega</th>
+                                    <th scope="col" class="text-center">Status</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var dadosPedidoCliente in Model.Pedidos.OrderByDescending(p => p.Status == "Pendente" && p.DataEntrega.HasValue))
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            @switch (dadosPedidoCliente.Status)
+                                            {
+                                                case "Finalizado":
+                                                    <button class="btn btn-icon btn-round btn-success btn-sm me-2">
+                                                        <i class="fa fa-check"></i>
+                                                    </button>
+                                                    break;
+                                                case "Atrasado":
+                                                    <button class="btn btn-icon btn-round btn-warning btn-sm me-2">
+                                                        <i class="fa fa-warning"></i>
+                                                    </button>
+                                                    break;
+                                                case "Cancelado":
+                                                    <button class="btn btn-icon btn-round btn-danger btn-sm me-2">
+                                                        <i class="fa fa-close"></i>
+                                                    </button>
+                                                    break;
+                                                default:
+                                                    <button class="btn btn-icon btn-round btn-info btn-sm me-2">
+                                                        <i class="fa fa-refresh"></i>
+                                                    </button>
+                                                    break;
+                                            }
+                                            @dadosPedidoCliente.Id - @dadosPedidoCliente.Descricao
+                                        </th>
+                                        <td class="text-center">R$@dadosPedidoCliente.Valor</td>
+                                        <td class="text-center">@dadosPedidoCliente.DataPedido.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@(dadosPedidoCliente.DataEntrega != null ? dadosPedidoCliente.DataEntrega.Value.ToString("dd/MM/yyyy") : "-")</td>
+                                        <td class="text-center">
+                                            @switch (dadosPedidoCliente.Status)
+                                            {
+                                                case "Finalizado":
+                                                    <text>Finalizado</text>
+                                                    break;
+                                                case "Atrasado":
+                                                    <text>Atrasado</text>
+                                                    break;
+                                                case "Cancelado":
+                                                    <text>Cancelado</text>
+                                                    break;
+                                                default:
+                                                    <text>Pendente</text>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td class="text-end">
+                                            <div class="form-button-action">
+                                                @if (Model.Anexos.Where(a => a.PedidoId == dadosPedidoCliente.Id) != null)
+                                                {
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModals_@dadosPedidoCliente.Id">
+                                                        <i class="fas fa-archive"></i> Arquivos
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModals_@dadosPedidoCliente.Id">
+                                                        <i class="fa fa-plus"></i> Add Arquivo
+                                                    </button>
+                                                }
+                                                <a class="btn btn-secondary" href="@Url.Action("EditarPedidos","Cliente", new {pedidoId = dadosPedidoCliente.Id, clienteId = Model.Id})">
+                                                    <i class="fa fa-edit"></i> Editar
+                                                </a>
+                                                <button type="button" class="btn btn-success" id="FinalizarPedido" data-id="@dadosPedidoCliente.Id">
+                                                    <i class="fa fa-check"></i> Finalizar
+                                                </button>
+                                            </div>
+
+                                            <div class="modal fade" id="exampleModals_@dadosPedidoCliente.Id" tabindex="-1" aria-labelledby="exampleModalsLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalsLabel">Arquivos</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <div class="row">
+                                                                <div class="col-md-6 col-lg-9">
+                                                                    <div class="form-group">
+                                                                        <input type="file" class="form-control" id="arquivos_@dadosPedidoCliente.Id">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6 col-lg-3">
+                                                                    <div class="form-group">
+                                                                        <button class="btn bnt-sm btn-icon btn-success" id="Inserir" data-id="@dadosPedidoCliente.Id">
+                                                                            <i class="fa fa-save"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <br />
+
+                                                            @if (Model.Anexos.Where(a => a.PedidoId == dadosPedidoCliente.Id) != null)
+                                                            {
+
+                                                                foreach (var anexo in Model.Anexos.Where(a => a.PedidoId == dadosPedidoCliente.Id))
+                                                                {
+                                                                    <div class="row">
+                                                                        <div class="col-md-6 col-lg-12">
+                                                                            <div class="card card-stats card-round">
+                                                                                <div class="card-body">
+
+                                                                                    @if (anexo.NomeArquivo.Contains(".png") ||
+                                                                                         anexo.NomeArquivo.Contains(".jpg") ||
+                                                                                         anexo.NomeArquivo.Contains(".gif"))
+                                                                                    {
+                                                                                        <div class="row user-stats text-center">
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-6 col-lg-3">
+                                                                                                    <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                                                                                                        <i class="fas fa-image"></i>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-lg-3">
+                                                                                                    <p class="card-category">Tamanho</p>
+                                                                                                    <h4 style="font-size:13px" class="card-title">@(anexo.Tamanho/1024) MB</h4>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-lg-4">
+                                                                                                    <p class="card-category">Nome</p>
+                                                                                                    <h4 style="font-size:13px" class="card-title">
+                                                                                                        @if (anexo.NomeArquivo.Length < 14)
+                                                                                                        {
+                                                                                                            @anexo.NomeArquivo@anexo.NomeArquivo.Substring(anexo.NomeArquivo.Length - 7)
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+                                                                                                            @anexo.NomeArquivo.Substring(0, 15)@anexo.NomeArquivo.Substring(anexo.NomeArquivo.Length - 7)
+                                                                                                        }
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-lg-2 mt-3">
+                                                                                                    <a class="btn btn-icon btn-round btn-success" href="@Url.Action("Download","Anexos", new {id = anexo.Id})">
+                                                                                                        <i class="fa fa-download"></i>
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    }
+                                                                                    else if (anexo.NomeArquivo.Contains(".txt"))
+                                                                                    {
+                                                                                        <div class="row user-stats text-center">
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-6 col-lg-3">
+                                                                                                    <div class="icon-big text-center icon-info bubble-shadow-small">
+                                                                                                        <i class="fas fa-file-text"></i>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-lg-3">
+                                                                                                    <p class="card-category">Tamanho</p>
+                                                                                                    <h4 style="font-size:13px" class="card-title">@(anexo.Tamanho/1024) MB</h4>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-lg-4">
+                                                                                                    <p class="card-category">Nome</p>
+                                                                                                    <h4 style="font-size:13px" class="card-title">
+                                                                                                        @if (anexo.NomeArquivo.Length < 19)
+                                                                                                        {
+                                                                                                            @anexo.NomeArquivo
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+                                                                                                            @anexo.NomeArquivo.Substring(0, 20)
+                                                                                                        }
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-lg-2 mt-3">
+                                                                                                    <a class="btn btn-icon btn-round btn-success" href="@Url.Action("Download","Anexos", new {id = anexo.Id})">
+                                                                                                        <i class="fa fa-download"></i>
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <div class="row user-stats text-center">
+                                                                                            <div class="row">
+                                                                                                <div class="col-md-6 col-lg-3">
+                                                                                                    <div class="icon-big text-center icon-success bubble-shadow-small">
+                                                                                                        <i class="fas fa-chalkboard"></i>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-lg-3">
+                                                                                                    <p class="card-category">Tamanho</p>
+                                                                                                    <h4 style="font-size:13px" class="card-title">@(anexo.Tamanho/1024) MB</h4>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-lg-4">
+                                                                                                    <p class="card-category">Nome</p>
+                                                                                                    <h4 style="font-size:13px" class="card-title">
+                                                                                                        @if (anexo.NomeArquivo.Length < 14)
+                                                                                                        {
+                                                                                                            @anexo.NomeArquivo@anexo.NomeArquivo.Substring(anexo.NomeArquivo.Length - 7)
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+                                                                                                            @anexo.NomeArquivo.Substring(0, 14)@anexo.NomeArquivo.Substring(anexo.NomeArquivo.Length - 7)
+                                                                                                        }
+                                                                                                    </h4>
+                                                                                                </div>
+                                                                                                <div class="col-md-6 col-lg-2 mt-3">
+                                                                                                    <a class="btn btn-icon btn-round btn-success" href="@Url.Action("Download","Anexos", new {id = anexo.Id})">
+                                                                                                        <i class="fa fa-download"></i>
+                                                                                                    </a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    }
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var controllerSalvarAnexo = '@Url.Action("EnviarArquivoPedido", "Cliente")';
+        $(document).on('click', '#Inserir', FuncInserirAnexo);
+        function FuncInserirAnexo()
+        {
+            var id = $(this).attr("data-id");
+
+            //Validação dos campos
+            if ($('#arquivos_' + id).val() == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "O Arquivo é Obrigatorio!"
+                });
+            }
+            else {
+                CadastrarPedido();
+            }
+
+            function CadastrarPedido() {
+
+                var formData = new FormData();
+
+                formData.append('pedidoId', id);
+                formData.append('arquivo', $('#arquivos_' + id).prop('files')[0]);
+
+                Swal.fire({
+                    title: "Tem certeza?",
+                    text: "Confirme para Enviar seu Arquivo!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sim",
+                    cancelButtonText: "Não",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: controllerSalvarAnexo,
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                if (data == "Erro ao Enviar o Arquivo!") {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: data,
+                                        icon: "success"
+                                    });
+                                }
+                                else if (data == "Sucesso") {
+                                    Swal.fire({
+                                        position: "center",
+                                        icon: "success",
+                                        title: "Arquivo Enviado com Sucesso",
+                                        showConfirmButton: false,
+                                        timer: 3500
+                                    }).then(() => {
+                                        window.location.href = '@Url.Action("ClientePedidos", "Cliente", new {id= Model.Id })';
+                                    });
+                                }
+                            },
+                            error: function (request, status, error) {
+                                console.log(request.responseText);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        var controllerFinalizarPedido = '@Url.Action("FinalizarPedido", "Cliente")';
+        $(document).on('click', '#FinalizarPedido', FuncFinalizarPedido);
+        function FuncFinalizarPedido()
+        {
+            var id = $(this).attr("data-id");
+            var formData = new FormData();
+            formData.append('pedidoId', id);
+
+            Swal.fire({
+                title: "Tem certeza?",
+                text: "Confirme para Finalizar Pedido!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sim",
+                cancelButtonText: "Não",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: controllerFinalizarPedido,
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            if (data == "Erro ao Finalizar Pedido!") {
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: data,
+                                    icon: "success"
+                                });
+                            }
+                            else if (data == "Sucesso") {
+                                Swal.fire({
+                                    position: "center",
+                                    icon: "success",
+                                    title: "Pedido Finalizado com Sucesso",
+                                    showConfirmButton: false,
+                                    timer: 3500
+                                }).then(() => {
+                                    window.location.href = '@Url.Action("ClientePedidos", "Cliente", new {id= Model.Id })';
+                                });
+                            }
+                        },
+                        error: function (request, status, error) {
+                            console.log(request.responseText);
+                        }
+                    });
+                }
+            });
+
+        }
+    });
+</script>
+
+
+
+
+
+
+

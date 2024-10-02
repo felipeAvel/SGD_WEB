@@ -1,0 +1,278 @@
+﻿@model SGD.ViewModels.Videos.UsuarioViewModels
+@using SGD.Dominio.Entidade.Autenticacao
+
+<div class="container" style="background-color:#f5f7fd">
+    <div class="page-inner">
+
+        <div class="page-header">
+            <h3 class="fw-bold mb-3">Usuários</h3>
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Home")">Home</a>
+                </li>
+                <li class="separator">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Usuario")">Usuários</a>
+                </li>
+                <li class="separator">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("EditarUsuario","Usuario", new {@id = Model.Id })">Editar Usuário</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-12">
+            <div class="card card-round">
+                <div class="card-header">
+                    <div class="card-title">Editar Usuário #@Model.Id</div>
+                    <div class="card-category">
+                        Informações Necessárias para Utilização da Plataforma
+                    </div>
+                </div>
+                <div class="card-body">
+                    @*0-BLOCO-START*@
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="fotoAtual">Foto Atual</label>
+                                <div class="avatar-xxl">
+                                    <img src="data:image/png;base64,@Model.FotoCaminho" alt="image profile" class="avatar-img rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*0-BLOCO-END*@
+
+                    @*1-BLOCO-START*@
+                    <div class="row pt-5">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="nome">Nome Completo</label>
+                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Obrigatório" value="@Model.Nome">
+                                <small id="nomeHelp" class="form-text text-muted">
+                                    Lembre-se de confirmar se o nome esta correto
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="login">Login</label>
+                                <input type="text" class="form-control" id="login" name="login" placeholder="Obrigatório" value="@Model.Login">
+                                <small id="loginHelp" class="form-text text-muted">
+                                    Para facilitar utilize o nome de sua máquina
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="email">E-mail</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Obrigatório" value="@Model.Email">
+                                <small id="emailHelp" class="form-text text-muted">
+                                    Utilize seu e-mail corporativo
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    @*1-BLOCO-END*@
+
+                    @*2-BLOCO-START*@
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="racf">Racf</label>
+                                <input type="text" class="form-control" id="racf" name="racf" placeholder="Obrigatório" maxlength="7" value="@Model.Racf">
+                                <small id="racfHelp" class="form-text text-muted">
+                                    Lembre-se a Racf é um identificador unico e não pode se repetir
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="funcional">Funcional</label>
+                                <input type="number" class="form-control" id="funcional" name="funcional" placeholder="Obrigatório" maxlength="9" value="@Model.Funcional">
+                                <small id="funcionalHelp" class="form-text text-muted">
+                                    Lembre-se a Funcional é um identificador unico e não pode se repetir
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="equipe">Equipe</label>
+                                @Html.DropDownList("equipeId", ViewBag.Equipes as IEnumerable<SelectListItem>, new { @class = "form-select form-control" })
+                                <small id="equipeHelp" class="form-text text-muted">
+                                    Informação importante para determinadas telas
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    @*2-BLOCO-END*@
+
+                    @*3-BLOCO-START*@
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="form-group">
+                                <label for="foto">Foto</label>
+
+                                <input type="file" accept=".png" class="form-control" id="foto" name="foto">
+
+                                <small id="fotoHelp" class="form-text text-muted">
+                                    Utilize uma imagem em .PNG
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    @*3-BLOCO-END*@
+                </div>
+
+                @*4-BLOCO-START*@
+                <div class="card-action">
+                    <button id="atualizar" class="btn btn-success">Salvar</button>
+                    <a class="btn btn-danger" href="@Url.Action("Index","Usuario")">Cancelar</a>
+                </div>
+                @*4-BLOCO-END*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        var controllerAtualizarUsuario = '@Url.Action("AtualizarUsuario", "Usuario")';
+        $(document).on('click', '#atualizar', FuncInserir);
+
+        function FuncInserir()
+        {
+            //Validação dos campos
+            if ($('#nome').val() == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "O campo Nome Completo é Obrigatorio!"
+                });
+            }
+            else if ($('#login').val() == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "O campo Login é Obrigatorio!"
+                });
+            }
+            else if ($('#email').val() == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "O campo E-mail é Obrigatorio!"
+                });
+            }
+            else if ($('#racf').val() == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "O campo Racf é Obrigatorio!"
+                });
+            }
+            else if ($('#funcional').val() == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "O campo Funcional é Obrigatorio!"
+                });
+            }
+            else if ($('#equipeId').val() == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "O campo Equipe é Obrigatorio!"
+                });
+            }
+            else if ($('#foto').val() == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "O campo Foto é Obrigatorio!"
+                });
+            }
+            else if ($('#senha').val() == "") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "O campo Senha é Obrigatorio!"
+                });
+            }
+            else {
+                AtualizarUsuarioPerfil();
+            }
+
+            function AtualizarUsuarioPerfil() {
+                var formData = new FormData();
+
+                formData.append('id', '@ViewBag.Base_UsuarioId');
+                formData.append('nome', $('#nome').val());
+                formData.append('login', $('#login').val());
+                formData.append('email', $('#email').val());
+                formData.append('racf', $('#racf').val());
+                formData.append('funcional', $('#funcional').val());
+                formData.append('equipeId', $('#equipeId').val());
+                formData.append('foto', $('#foto').prop('files')[0]);
+                formData.append('senha', $('#senha').val());
+
+                Swal.fire({
+                    title: "Tem certeza?",
+                    text: "Confirme para Cadastrar um novo Usuário!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sim",
+                    cancelButtonText: "Não",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: controllerAtualizarUsuario,
+                            type: 'POST',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                if (data == "Erro ao Atualizar Usuário!") {
+                                    Swal.fire({
+                                        title: "Deleted!",
+                                        text: data,
+                                        icon: "success"
+                                    });
+                                }
+                                else if (data == "Sucesso") {
+                                    Swal.fire({
+                                        position: "center",
+                                        icon: "success",
+                                        title: "Usuário Atualizar Com Sucesso",
+                                        showConfirmButton: false,
+                                        timer: 3500
+                                    }).then(() => {
+                                        window.location.href = '@Url.Action("Index", "Usuario")';
+                                    });
+                                }
+                            },
+                            error: function (request, status, error) {
+                                console.log(request.responseText);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    });
+</script>

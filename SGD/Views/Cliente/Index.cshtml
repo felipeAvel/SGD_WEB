@@ -1,0 +1,140 @@
+﻿@model SGD.Dominio.Entidade.Gerais.Paginacao
+@using PagedList
+@using PagedList.Mvc;
+@using SGD.Dominio.Entidade.ClientePedidos
+
+@{
+    var listaClientes = (StaticPagedList<ClientesPedido>)ViewBag.ListaClientes;
+}
+
+<div class="container" style="background-color:#f5f7fd">
+    <div class="page-inner">
+
+        <div class="page-header">
+            <h3 class="fw-bold mb-3">Clientes</h3>
+            <ul class="breadcrumbs mb-3">
+                <li class="nav-home">
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Home")">Home</a>
+                </li>
+                <li class="separator">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index","Cliente")">Clientes</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card card-round">
+                <div class="card-header">
+                    <div class="card-title">Cadastrados</div>
+                    <div class="card-category">
+                        Lista de Clientes Cadastrados
+                        <div class="card-head-row card-tools-still-right">
+                            <div class="card-tools">
+                                <div class="dropdown">
+                                    <button class="btn btn-icon btn-clean me-0"
+                                            type="button"
+                                            id="dropdownMenuButton"
+                                            data-bs-toggle="dropdown"
+                                            aria-haspopup="true"
+                                            aria-expanded="false">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                    <div class="dropdown-menu"
+                                         aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="@Url.Action("CadastrarCliente","Cliente")">Adicionar/Cliente</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Cliente</th>
+                                    <th scope="col" class="text-center">Telefone</th>
+                                    <th scope="col" class="text-center">Endereço</th>
+                                    <th scope="col" class="text-center">Data Registro</th>
+                                    @*<th scope="col" class="text-center">Status Pedidos</th>*@
+                                    @*<th scope="col" class="text-center">Status Cliente</th>*@
+                                    <th scope="col" class="text-center">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in listaClientes)
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            <img src="data:image/png;base64,@item.Foto" alt="..." class="avatar-img rounded-circle avatar-sm">
+                                            @item.Nome
+                                        </th>
+                                        <td class="text-center">@item.Telefone</td>
+                                        <td class="text-center">@item.Endereco - @item.CEP</td>
+                                        <td class="text-center">@item.DataRegistro.ToString("dd/MM/yyyy")</td>
+                                        @*<td class="text-center">
+                                            Finalizados:@item.Pedidos.Where(p => p.Status == "Finalizado").Count() / Pendentes:@item.Pedidos.Where(p => p.Status == "Pendente").Count() / Cancelados:@item.Pedidos.Where(p => p.Status == "Cancelado").Count()
+                                        </td>*@
+                                        @*<td class="text-center">
+                                            @if (item.IsAtivo == true)
+                                            {
+
+                                                <text>Ativo</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Desativado</text>
+                                            }
+                                        </td>*@
+                                        <td class="text-center">
+                                            <div class="form-button-action">
+                                                <a href="@Url.Action("EditarCliente","Cliente", new { @id = item.Id })" class="btn btn-primary"><i class="fa fa-user-edit"></i> Editar</a>
+                                                <a href="@Url.Action("ClientePedidos","Cliente", new { @id = item.Id })" class="btn btn-primary ms-1"><i class="fa fa-search"></i> Pedidos</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <div class="col-md-3 m-4">
+                        @Html.PagedListPager(
+                        listaClientes,
+                        page => Url.Action(
+                        "Index",
+                        new
+                        {
+                            PaginaAtual = page,
+                            Ordenacao = Model.Ordenacao,
+                            TermoBusca = Model.TermoBusca
+                        }),
+                        new PagedListRenderOptions
+                        {
+                            FunctionToTransformEachPageLink = (liTag, aTag) =>
+                            {
+                                liTag.AddCssClass("page-item");
+                                aTag.AddCssClass("page-link");
+                                liTag.InnerHtml = aTag.ToString();
+                                return liTag;
+                            }
+                        })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
